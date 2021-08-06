@@ -1,7 +1,7 @@
 /* global describe cy before it  */
-describe('App with event bus', () => {
+describe('App with event bus - fire once', () => {
   before(() => {
-    cy.visit('app-with-event-bus')
+    cy.visit('app-with-event-bus-fire-once')
   })
 
   it('has an increment button', () => {
@@ -22,7 +22,7 @@ describe('App with event bus', () => {
 
       it(`increments the output count to ${expecting}`, () => {
         cy.get('subscribe-button')
-          .should('have.text', `You have clicked ${expecting} times!`)
+          .should('have.text', 'You have clicked 1 times!')
       })
     })
   }

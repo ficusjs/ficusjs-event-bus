@@ -51,3 +51,17 @@ test('get an events bus', t => {
   const thisEventBus = getEventBus()
   t.is(thisEventBus, eventBus)
 })
+
+test('call subscribers once when publish', t => {
+  const callback = sinon.spy()
+  const unsub = eventBus.subscribe('message', callback, { fireOnce: true })
+
+  eventBus.publish('message', 'contents')
+  eventBus.publish('message', 'contents')
+  eventBus.publish('message', 'contents')
+
+  t.truthy(callback.calledOnce)
+
+  unsub()
+  callback.resetHistory()
+})

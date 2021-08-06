@@ -3,60 +3,79 @@ class EventBus {
     if (globalThis.__ficusjs__ && globalThis.__ficusjs__.eventBus) {
       return globalThis.__ficusjs__.eventBus
     }
-    this.events = {}
+    this.subscribers = {}
     globalThis.__ficusjs__ = globalThis.__ficusjs__ || {}
     globalThis.__ficusjs__.eventBus = globalThis.__ficusjs__.eventBus || this
   }
 
   /**
-   * Either create a new event instance for passed `event` name
-   * or push a new callback into the existing collection
-   *
-   * @param {string} event
-   * @param {function} callback
-   * @returns {number} A count of callbacks for this event
-   * @memberof EventBus
+   * Return a list of subscribers for a topic. If no topic is passed, all subscribers are returned
+   * @method
+   * @param topic
+   * @returns {Map|object} A Map of subscribers for a topic or object of all subscribers for all topics
    */
-  subscribe (event, callback) {
-    const self = this
+  getSubscribers (topic) {
+    return topic ? this.subscribers[topic] : this.subscribers
+  }
 
-    // If there's not already an event with this name set in our collection
+  /**
+   * Subscribe to a topic
+   *
+   * @method
+   * @param {string} topic
+   * @param {function} callback
+   * @param {object} options
+   * @returns {number} A count of callbacks for this topic
+   */
+  subscribe (topic, callback, options = {}) {
+    const self = this
+    const opts = { callCount: 0, fireOnce: false, ...options }
+
+    // If there's not already an topic with this name set in our collection
     // go ahead and create a new one and set it with an empty array, so we don't
     // have to type check it later down-the-line
-    if (!self.events[event]) {
-      self.events[event] = []
+    if (!self.subscribers[topic]) {
+      self.subscribers[topic] = new Map()
     }
 
     // create an unsubscribe function
     const unsubscribe = () => {
-      self.events[event] = self.events[event].filter(c => c !== callback)
+      const newItems = new Map()
+      self.subscribers[topic].forEach((v, k) => k !== callback && newItems.set(k, v))
+      self.subscribers[topic] = newItems
     }
 
-    // We know we've got an array for this event, so push our callback in there with no fuss
-    self.events[event].push(callback)
+    // add the callback to the map
+    self.subscribers[topic].set(callback, opts)
 
     return unsubscribe
   }
 
   /**
-   * If the passed event has callbacks attached to it, loop through each one
-   * and call it
+   * Publish a message to a topic
    *
-   * @param {string} event
-   * @param {object} [data={}]
-   * @returns {array} The callbacks for this event, or an empty array if no event exits
-   * @memberof EventBus
+   * @method
+   * @param {string} topic
+   * @param {object} data
+   * @returns {Map} The subscribers notified by this topic
    */
-  publish (event, data = {}) {
+  publish (topic, data) {
     const self = this
 
-    // There's no event to publish to, so bail out
-    if (!self.events[event]) {
+    // There's no topic to publish to, so bail out
+    if (!self.subscribers[topic]) {
       return []
     }
 
     // Get each subscription and call its callback with the passed data
-    return self.events[event].map(callback => callback(data))
+    const published = new Map()
+    self.subscribers[topic].forEach((opts, callback) => {
+      if (opts.fireOnce && opts.callCount === 1) return
+      callback(data)
+      ++opts.callCount
+      published.set(callback, opts)
+    })
+    return published
   }
 }
 
