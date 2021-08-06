@@ -1,6 +1,6 @@
 {
   "name": "@ficusjs/event-bus",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Publish/subscribe event bus functions for FicusJS",
   "type": "module",
   "main": "dist/index.mjs",

@@ -1,4 +1,4 @@
-import { EventBus } from './event'
+import { EventBus } from './event-bus'
 import { CustomElementOptions } from '@ficusjs/core'
 
 export interface FicusComponentWithEventBus<TD> extends HTMLElement {
