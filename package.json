@@ -1,6 +1,6 @@
 {
   "name": "@ficusjs/event-bus",
-  "version": "1.2.3",
+  "version": "1.3.0",
   "description": "Publish/subscribe event bus functions for FicusJS",
   "type": "module",
   "main": "dist/index.mjs",
@@ -9,9 +9,9 @@
   "sideEffects": false,
   "scripts": {
     "build": "run-p build:*",
-    "build:all": "rollup -i src/index.mjs -o dist/index.mjs -f es -p \"terser={mangle: { keep_fnames: true, toplevel: true, module: true }}\" -p \"filesize={}\"",
-    "build:event-bus": "rollup -i src/event-bus.mjs -o dist/event-bus.mjs -f es -p \"terser={mangle: { keep_fnames: true, toplevel: true, module: true }}\" -p \"filesize={}\"",
-    "build:with-event-bus": "rollup -i src/with-event-bus.mjs -o dist/with-event-bus.mjs -f es -p \"terser={mangle: { keep_fnames: true, toplevel: true, module: true }}\" -p \"filesize={}\"",
+    "build:all": "rollup -i src/index.mjs -o dist/index.mjs -f es -m -p \"terser={mangle: { keep_fnames: true, toplevel: true, module: true }}\" -p \"filesize={}\"",
+    "build:event-bus": "rollup -i src/event-bus.mjs -o dist/event-bus.mjs -f es -m -p \"terser={mangle: { keep_fnames: true, toplevel: true, module: true }}\" -p \"filesize={}\"",
+    "build:with-event-bus": "rollup -i src/with-event-bus.mjs -o dist/with-event-bus.mjs -f es -m -p \"terser={mangle: { keep_fnames: true, toplevel: true, module: true }}\" -p \"filesize={}\"",
     "cy:open": "cypress open",
     "cy:run": "cypress run",
     "dev": "run-p serve open",
@@ -49,7 +49,7 @@
   },
   "devDependencies": {
     "ava": "5.0.1",
-    "@ficusjs/core": "2.0.1",
+    "@ficusjs/core": "2.1.0",
     "@ficusjs/renderers": "5.3.1",
     "@rollup/plugin-alias": "4.0.2",
     "@rollup/plugin-commonjs": "23.0.2",
