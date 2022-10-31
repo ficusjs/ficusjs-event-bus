@@ -67,7 +67,7 @@
     "sinon": "14.0.1",
     "standard": "16.0.4",
     "start-server-and-test": "1.14.0",
-    "xstate": "4.33.6"
+    "xstate": "4.34.0"
   },
   "exports": {
     ".": {
