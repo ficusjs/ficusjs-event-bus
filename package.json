@@ -48,7 +48,7 @@
     ]
   },
   "devDependencies": {
-    "ava": "5.0.1",
+    "ava": "5.1.0",
     "@ficusjs/core": "3.0.1",
     "@ficusjs/renderers": "5.4.1",
     "c8": "7.12.0",
