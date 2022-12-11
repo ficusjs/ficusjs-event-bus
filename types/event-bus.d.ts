@@ -19,11 +19,17 @@ export interface EventSubscribersObject<TD> {
 export type EventSubscribers<TD> = EventSubscribersMap<TD> | EventSubscribersObject<TD>
 
 export declare class EventBus<TD> {
-  subscribe (event: string, callback: EventCallback<TD>): EventUnsubscribe
-  publish (event: string, data: TD): void
+  subscribe (event: string, callback: EventCallback<TD>, options?: EventSubscriptionOptions): EventUnsubscribe
+  publish (event: string, data: TD): EventSubscribersMap<TD> | []
   getSubscribers (topic?: string): EventSubscribers<TD>
 }
 
 export declare function createEventBus<TD> (): EventBus<TD>
 
 export declare function getEventBus<TD> (): EventBus<TD>
+
+declare global {
+  var __ficusjs__: {
+    eventBus: EventBus
+  }
+}

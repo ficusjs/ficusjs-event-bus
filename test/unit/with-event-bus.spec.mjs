@@ -1,7 +1,7 @@
 import test from 'ava'
 import sinon from 'sinon'
 import { createWrapper } from '../helpers/wrapper.mjs'
-import { createEventBus, withEventBus } from '../../src/index.mjs'
+import { createEventBus, withEventBus } from '../../build/index.mjs'
 
 test.beforeEach(t => {
   t.context = createWrapper(

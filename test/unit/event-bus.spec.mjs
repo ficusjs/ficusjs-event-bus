@@ -1,6 +1,6 @@
 import test from 'ava'
 import sinon from 'sinon'
-import { createEventBus, getEventBus } from '../../src/event-bus.mjs'
+import { createEventBus, getEventBus } from '../../build/event-bus.mjs'
 
 let eventBus
 

@@ -1,4 +1,14 @@
-class EventBus {
+import {
+  EventSubscriberOptions,
+  EventCallback,
+  EventSubscribersObject,
+  EventUnsubscribe,
+  EventSubscribersMap,
+  EventSubscribers
+} from '../types'
+
+class EventBus <TD> {
+  subscribers!: EventSubscribersObject<TD>
   constructor () {
     if (globalThis.__ficusjs__ && globalThis.__ficusjs__.eventBus) {
       return globalThis.__ficusjs__.eventBus
@@ -14,7 +24,7 @@ class EventBus {
    * @param topic
    * @returns {Map|object} A Map of subscribers for a topic or object of all subscribers for all topics
    */
-  getSubscribers (topic) {
+  getSubscribers (topic?: string): EventSubscribers<TD> {
     return topic ? this.subscribers[topic] : this.subscribers
   }
 
@@ -27,7 +37,7 @@ class EventBus {
    * @param {object} options
    * @returns {number} A count of callbacks for this topic
    */
-  subscribe (topic, callback, options = {}) {
+  subscribe (topic: string, callback: EventCallback <TD>, options: { fireOnce?: boolean } = {}): EventUnsubscribe {
     const self = this
     const opts = { callCount: 0, fireOnce: false, ...options }
 
@@ -39,9 +49,9 @@ class EventBus {
     }
 
     // create an unsubscribe function
-    const unsubscribe = () => {
-      const newItems = new Map()
-      self.subscribers[topic].forEach((v, k) => k !== callback && newItems.set(k, v))
+    const unsubscribe = (): void => {
+      const newItems: EventSubscribersMap <TD> = new Map()
+      self.subscribers[topic].forEach((v: EventSubscriberOptions, k: EventCallback <TD>) => k !== callback && newItems.set(k, v))
       self.subscribers[topic] = newItems
     }
 
@@ -59,7 +69,7 @@ class EventBus {
    * @param {object} data
    * @returns {Map} The subscribers notified by this topic
    */
-  publish (topic, data) {
+  publish (topic: string, data: TD): EventSubscribersMap<TD> | [] {
     const self = this
 
     // There's no topic to publish to, so bail out
@@ -69,7 +79,7 @@ class EventBus {
 
     // Get each subscription and call its callback with the passed data
     const published = new Map()
-    self.subscribers[topic].forEach((opts, callback) => {
+    self.subscribers[topic].forEach((opts: EventSubscriberOptions, callback: EventCallback <TD>) => {
       if (opts.fireOnce && opts.callCount === 1) return
       callback(data)
       ++opts.callCount

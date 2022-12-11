@@ -9,12 +9,12 @@
   "sideEffects": false,
   "scripts": {
     "build": "run-p build:*",
-    "build:all": "rollup -i src/index.mjs -o dist/index.mjs -f es -m -p \"terser={mangle: { keep_fnames: true, toplevel: true, module: true }}\" -p \"filesize={}\"",
-    "build:event-bus": "rollup -i src/event-bus.mjs -o dist/event-bus.mjs -f es -m -p \"terser={mangle: { keep_fnames: true, toplevel: true, module: true }}\" -p \"filesize={}\"",
-    "build:with-event-bus": "rollup -i src/with-event-bus.mjs -o dist/with-event-bus.mjs -f es -m -p \"terser={mangle: { keep_fnames: true, toplevel: true, module: true }}\" -p \"filesize={}\"",
+    "build:all": "rollup -i build/index.mjs -o dist/index.mjs -f es -m -p \"terser={mangle: { keep_fnames: true, toplevel: true, module: true }}\" -p \"filesize={}\"",
+    "build:event-bus": "rollup -i build/event-bus.mjs -o dist/event-bus.mjs -f es -m -p \"terser={mangle: { keep_fnames: true, toplevel: true, module: true }}\" -p \"filesize={}\"",
+    "build:with-event-bus": "rollup -i build/with-event-bus.mjs -o dist/with-event-bus.mjs -f es -m -p \"terser={mangle: { keep_fnames: true, toplevel: true, module: true }}\" -p \"filesize={}\"",
     "cy:open": "cypress open",
     "cy:run": "cypress run",
-    "dev": "run-p serve open",
+    "dev": "run-p tsc:watch serve open",
     "lint": "standard \"./src/**/*.mjs\" \"./test/**/*.mjs\"",
     "open": "open-cli http://localhost:8080/test/e2e",
     "test": "npm run test:unit && start-server-and-test serve:silent http://localhost:8080 cy:run",
@@ -22,7 +22,9 @@
     "test:unit:watch": "ava test/unit/**/*.spec.mjs --watch",
     "test:unit:coverage": "c8 --all --include=src/**/*.mjs --reporter=lcov --reporter=text-summary ava test/unit/**/*.spec.mjs --verbose",
     "serve": "http-server",
-    "serve:silent": "http-server -s"
+    "serve:silent": "http-server -s",
+    "tsc": "tsc",
+    "tsc:watch": "tsc --watch"
   },
   "repository": {
     "type": "git",
@@ -44,13 +46,14 @@
   "homepage": "https://github.com/ficusjs/ficusjs-event-bus#readme",
   "standard": {
     "ignore": [
-      "*.ts"
+      "*.ts",
+      "*.mts"
     ]
   },
   "devDependencies": {
-    "ava": "5.1.0",
     "@ficusjs/core": "3.1.1",
     "@ficusjs/renderers": "5.4.1",
+    "ava": "5.1.0",
     "c8": "7.12.0",
     "cypress": "11.2.0",
     "http-server": "14.1.1",
@@ -61,7 +64,8 @@
     "rollup-plugin-terser": "7.0.2",
     "sinon": "15.0.0",
     "standard": "16.0.4",
-    "start-server-and-test": "1.14.0"
+    "start-server-and-test": "1.14.0",
+    "typescript": "^4.9.4"
   },
   "exports": {
     ".": {
