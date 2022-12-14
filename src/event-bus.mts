@@ -7,7 +7,7 @@ import {
   EventSubscribers
 } from '../types'
 
-class EventBus <TD> {
+class EventBus<TD> {
   subscribers!: EventSubscribersObject<TD>
   constructor () {
     if (globalThis.__ficusjs__ && globalThis.__ficusjs__.eventBus) {

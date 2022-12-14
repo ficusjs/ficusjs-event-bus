@@ -3,7 +3,7 @@ import { WithEventBusCustomElementOptions, EventBus, EventSubscriptionOptions, E
 // I was not able to set the options' type to CustomElementOptions, not sure why. I left any for the moment.
 // Then in with-event-bus.d.ts the withEventBus function accepts two generics, and only one is passed to CustomElementOptions
 // but if I try to do the same, typescript complains because CustomElementOptions needs to have two generics
-export function withEventBus <TD, WT, AT> (eventBus: EventBus <TD>, options: any): WithEventBusCustomElementOptions <TD, WT, AT> {
+export function withEventBus<TD, WT, AT> (eventBus: EventBus <TD>, options: any): WithEventBusCustomElementOptions<TD, WT, AT> {
   return {
     ...options,
     created () {
