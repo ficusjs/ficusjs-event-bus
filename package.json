@@ -50,7 +50,7 @@
   "devDependencies": {
     "ava": "5.3.1",
     "@ficusjs/core": "3.1.4",
-    "@ficusjs/renderers": "5.8.1",
+    "@ficusjs/renderers": "5.9.0",
     "@rollup/plugin-terser": "^0.4.3",
     "c8": "8.0.1",
     "cypress": "13.1.0",
